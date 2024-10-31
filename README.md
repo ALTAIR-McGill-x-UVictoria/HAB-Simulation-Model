@@ -1,2 +1,2 @@
 # HAB-Simulation-Model
-High Altitude Balloon simulaiton model with MATLAB Simulink
+High Altitude Balloon simulation model with MATLAB Simulink
