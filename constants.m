@@ -22,7 +22,12 @@ arm_mass = 50;              % Mass of each arm (g)
 motor_mass = 120;           % Mass of the motors (g)
 propeller_diameter = 30;    % Length of the propeller (cm)
 propeller_mass = 20;        % Mass of the propeller (g)
-propeller_ct = 0.07;      % Propeller thurst coefficient
-propeller_cq = 0.2;   % Propeller torque coefficient
+propeller_ct = 0.07;        % Propeller thurst coefficient
+propeller_cq = 0.2;         % Propeller torque coefficient
 motor_joint_damp = 0;       % Motor joint damping coefficient (N*m/(deg/s))
-motor_rotor_damp = 0.1;       % Motor rotor damping (N*m/(rad/s))
+motor_rotor_damp = 0.0;     % Motor rotor damping (N*m/(rad/s))
+motor_voltage = 12;         % Motor DC voltage (V)
+motor_backemf = 0.072e-3;   % Motor Back-emf (V/rpm)
+motor_arm_induc = 12e-6;    % Motor armature inductance (H)
+motor_arm_resit = 3.9;      % Motor armature resistance (ohm)
+
