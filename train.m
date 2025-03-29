@@ -1,4 +1,4 @@
-numObservations = 17;
+numObservations = 22;
 numActions = 2;
 useGPU = true;
 
@@ -77,20 +77,16 @@ agent = rlSACAgent(actor, [critic1, critic2], agentOpts);
 
 env = rlSimulinkEnv('hab', 'hab/Controller');
 function simIn = resetHAB(simIn)
-    % assignin('base', "seed", randi(100000));  % For the wind generation
-    % assignin('base', "vx", -10 + rand * 20);
-    % assignin('base', "vy", -10 + rand * 20);
-    % assignin('base', "h", 10000 + rand * 10000);
-
     simIn = setVariable(simIn, "seed", randi(100000));
     simIn = setVariable(simIn, "vx", -10 + rand * 20);
     simIn = setVariable(simIn, "vy", -10 + rand * 20);
-    simIn = setVariable(simIn, "h", 10000 + rand * 10000);
+    simIn = setVariable(simIn, "h", 17000 + rand * 5000);
+    simIn = setVariable(simIn, "wind_gain", 0.5 + rand * 1.5);
 end
 env.ResetFcn = @resetHAB;
 
 trainOpts = rlTrainingOptions(...
-    "MaxEpisodes", 5 ...
+    "MaxEpisodes", numEpisodes ...
 );
 
-train(agent, env, trainOpts);
+% train(agent, env, trainOpts);
