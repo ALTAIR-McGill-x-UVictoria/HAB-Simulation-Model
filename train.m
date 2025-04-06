@@ -1,9 +1,9 @@
-numObservations = 22;
+numObservations = 16;
 numActions = 2;
 useGPU = true;
 
 obsInfo = rlNumericSpec([numObservations 1], 'LowerLimit', -inf, 'UpperLimit', inf);
-actInfo = rlNumericSpec([numActions 1], 'LowerLimit', -1, 'UpperLimit', 1);
+actInfo = rlNumericSpec([numActions 1], 'LowerLimit', -inf, 'UpperLimit', inf);
 
 % Define actor input layer
 actorInput = featureInputLayer(numObservations, ...
@@ -65,7 +65,7 @@ agentOpts.MiniBatchSize = batchSize;
 agentOpts.DiscountFactor = discountFactor; 
 agentOpts.TargetSmoothFactor = targetSmoothFactor; 
 agentOpts.SampleTime = sampleTime;
-% agentOpts.EntropyWeightOptions.TargetEntropy = -numActions; % Automatic entropy tuning
+agentOpts.EntropyWeightOptions.TargetEntropy = -0.5 * numActions; % Automatic entropy tuning
 
 actor = rlContinuousGaussianActor(actorNet, obsInfo, actInfo, ...
     "ActionMeanOutputNames", "mean", ...
@@ -78,15 +78,18 @@ agent = rlSACAgent(actor, [critic1, critic2], agentOpts);
 env = rlSimulinkEnv('hab', 'hab/Controller');
 function simIn = resetHAB(simIn)
     simIn = setVariable(simIn, "seed", randi(100000));
-    simIn = setVariable(simIn, "vx", -10 + rand * 20);
-    simIn = setVariable(simIn, "vy", -10 + rand * 20);
+    simIn = setVariable(simIn, "vx", -5 + rand * 10);
+    simIn = setVariable(simIn, "vy", -5 + rand * 10);
     simIn = setVariable(simIn, "h", 17000 + rand * 5000);
-    simIn = setVariable(simIn, "wind_gain", 0.5 + rand * 1.5);
+    simIn = setVariable(simIn, "wind_gain", 0.5 + rand * 0.7);
 end
 env.ResetFcn = @resetHAB;
 
 trainOpts = rlTrainingOptions(...
-    "MaxEpisodes", numEpisodes ...
+    "MaxEpisodes", numEpisodes, ...
+    'MaxSteps', 5e6, ...
+    'StopTrainingCriteria', 'AverageReward', ...
+    'StopTrainingValue', 100 ...
 );
 
-% train(agent, env, trainOpts);
+train(agent, env, trainOpts);
