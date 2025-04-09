@@ -18,12 +18,23 @@ def write_to_c_array(byte_array, output_file="hab_model.h"):
             f.write("  " + ", ".join(f"0x{byte:02x}" for byte in byte_array[i:i+12]) + ",\n")
         
         f.write("};\n")
-        f.write("#endif HAB_WEIGHTS_H")
+        f.write("#endif")
 
 model_path = os.path.join('habModel', 'habModel.tflite')
 model = habModel.load_model()
+# def representative_data_gen():
+#     for _ in range(100):
+#         # Replace with real input samples if possible
+#         yield [tf.random.uniform(shape=(1, *model.input_shape[1:]), dtype=tf.float32)]
+
 converter = tf.lite.TFLiteConverter.from_keras_model(model)
+# converter.optimizations = [tf.lite.Optimize.DEFAULT]
+# converter.representative_dataset = representative_data_gen
+# converter.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS_INT8]
+# converter.inference_input_type = tf.int8
+# converter.inference_output_type = tf.int8
 tflite_model = converter.convert()
+
 with open(model_path, 'wb') as f:
     f.write(tflite_model)
 

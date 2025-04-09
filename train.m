@@ -81,7 +81,7 @@ function simIn = resetHAB(simIn)
     simIn = setVariable(simIn, "vx", -5 + rand * 10);
     simIn = setVariable(simIn, "vy", -5 + rand * 10);
     simIn = setVariable(simIn, "h", 17000 + rand * 5000);
-    simIn = setVariable(simIn, "wind_gain", 0.5 + rand * 0.7);
+    simIn = setVariable(simIn, "wind_gain", 0.5 + rand * 0.5);
 end
 env.ResetFcn = @resetHAB;
 
