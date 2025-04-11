@@ -46,13 +46,14 @@ imu_gyro_bias = [0 0 0];    % Gyro measurement bias
 wind_gain = 1;              % Gain for adjusting the speed of the winds
 
 % Training variables
-numEpisodes = 1000;         % Number of episodes for training
+numEpisodes = 2000;         % Number of episodes for training
 t_max = 30;                 % Max episode duration (s)
 k1 = 20;                    % Stability reward coefficient
 k2 = 10;                    % Orientation reward coefficient
-k3 = 35;                    % Motor smoothness penalty coefficient
-k4 = 15;                    % Wind alignment coefficient
-k5 = 30;                    % Motor Efficiency penalty coefficient
+k3 = 30;                    % Motor smoothness penalty coefficient
+k4 = 10;                    % Wind alignment coefficient
+k5 = 20;                    % Motor efficiency coefficient
+k6 = 15;                    % Action balance penalty coefficient
 sampleTime = 0.04;          % Adjust based on simulation step size
 actorLearnRate = 3e-4;      % Learning rate for policy network
 criticLearnRate = 3e-4;     % Learning rate for value function
